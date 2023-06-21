@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class ThirdPesronControl : MonoBehaviour
 {
-    public float moveSpeed = 5f;   // Movement speed of the character
-    public float gravity = -9.81f; // Gravity value to simulate downward force
+    public float moveSpeed = 5f;      // Movement speed of the character
+    public float jumpForce = 5f;      // Jump force applied to the character
+    public float gravity = -9.81f;    // Gravity value to simulate downward force
 
     private CharacterController controller; // Reference to the CharacterController component
     private Vector3 velocity;               // Current velocity of the character
@@ -28,6 +29,12 @@ public class ThirdPesronControl : MonoBehaviour
         // Apply movement to the character controller
         controller.Move(movement * Time.deltaTime);
 
+        // Check for jump input
+        if (Input.GetKeyDown(KeyCode.Space) && controller.isGrounded)
+        {
+            // Apply jump force
+            velocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
+        }
         // Apply gravity
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
